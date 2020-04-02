@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/addons/p5.dom.js"></script> -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="pathfinding.css">
+  <title>Visualize Algorithm</title>
+</head>
+
+<body>
+  <div id = "myModal" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><b>Tutorials</b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Prev</button>
+          <button type="button" class="btn btn-warning">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- NAV BAR -->
+  <nav class="navbar header">
+    <a id="navbar-title" class="navbar-brand">Visualize Algorithm.</a>
+    <div id="dropdown_div" class="dropdown">
+      <button id="ShortestPath" class="btn text-dark dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <b>Algorithms</b>
+      </button>
+      <div id="dropdwn_algo" class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button id="DFS_sel" class="dropdown-item " type="button"><b>Dfs</b></button>
+        <button id="BFS_sel" class="dropdown-item" type="button"><b>Bfs</b></button>
+        <button id="greedy_BFS_sel" class="dropdown-item " type="button"><b>Greedy-BFS</b></button>
+        <button id="dij_st_sel" class="dropdown-item " type="button"><b>Dijkstra's</b></button>
+        <button id="A_st_sel" class="dropdown-item " type="button"><b>A-star</b></button>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button id="btn-gen_maze" class="btn btn-dark text-white"><b>Generate Maze!</b></button>
+    </div>
+    <div>
+      <button id="btn-visualize" class="btn btn-visualize text-white"><b>VISUALIZE!</b></button>
+    </div>
+    <div>
+      <button id="btn-clear-checked" class="btn text-dark"><b>Clear Path</b></button>
+    </div>
+    <div>
+      <button id="btn-clear-walls" class="btn text-dark"><b>Clear Walls</b></button>
+    </div>
+    <div>
+      <button id="btn-clear-Board" class="btn text-dark"><b>Clear Board</b></button>
+    </div>
+    <div id="dropdown_speed" class="dropdown btn-group dropleft">
+      <button id="Speed_selector" class="btn text-dark bg-warning dropdown-toggle Speed_selector" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Speed
+      </button>
+      <div id="dropdwn_algo" class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button id="slow_sel" class="dropdown-item " type="button"><b>Slow</b></button>
+        <button id="avg_sel" class="dropdown-item " type="button"><b>Average</b></button>
+        <button id="fast_sel" class="dropdown-item " type="button"><b>Fast</b></button>
+      </div>
+    </div>
+  </nav>
+  <div>
+    <nav class="navbar info my-1 ">
+      <div id="info_text" class="info_text">
+        Pick an Algorithm!!
+      </div>
+    </nav>
+  </div>
+  <div id="grid" class="table-wrap">
+    <table id="tableDiv">
+  </div>
+
+  </table>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="priorityQueue.js"></script>
+  <script type="text/javascript" src="cells.js"></script>
+  <script type="text/javascript" src="w.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
