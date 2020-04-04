@@ -18,7 +18,7 @@ $(document).ready(function(){
 
 function changeModalPage(pageNum)
 {
-  if(pageNum == 8)
+  if(pageNum == 9)
   {
     $("#myModal .next").text("Close");
   }
@@ -37,13 +37,13 @@ function changeModalPage(pageNum)
   }
 
 
-  if(pageNum > 8 || pageNum < 0)
+  if(pageNum > 9 || pageNum < 0)
   {
     $("#myModal").modal("hide");
     return;
   }
 
-  for(let i = 0 ; i < 9 ; i++)
+  for(let i = 0 ; i < 10 ; i++)
   {
     if(i == pageNum)
     {
@@ -956,47 +956,50 @@ $("#btn-visualize").click(() => {
   }
   else
   {
-    console.log("TASK NOT COMPLETED");
+    $(this).addClass("bg-warning");
   }
 })
 
 $("#dropdown_div button").click(function(e) {
-  let selText = $(this).text();
-  if (selText == "Bfs") {
-    BFS_btn = true;
-    DFS_btn = false;
-    A_star_btn = false;
-    Dijkstar_btn = false;
-    GreedyBFS_btn = false;
-    $("#info_text").text("Breadth First Search");
-  } else if (selText == "Dfs") {
-    BFS_btn = false;
-    DFS_btn = true;
-    A_star_btn = false;
-    Dijkstar_btn = false;
-    GreedyBFS_btn = false;
-    $("#info_text").text("Depth First Search");
-  } else if (selText == "A-star") {
-    BFS_btn = false;
-    DFS_btn = false;
-    A_star_btn = true;
-    Dijkstar_btn = false;
-    GreedyBFS_btn = false;
-    $("#info_text").text("A-star Algorithm");
-  } else if (selText == "Dijkstra's") {
-    BFS_btn = false;
-    DFS_btn = false;
-    A_star_btn = false;
-    Dijkstar_btn = true;
-    GreedyBFS_btn = false;
-    $("#info_text").text("Dijkstra's Algorithm");
-  } else if (selText == "Greedy-BFS") {
-    BFS_btn = false;
-    DFS_btn = false;
-    A_star_btn = false;
-    Dijkstar_btn = false;
-    GreedyBFS_btn = true;
-    $("#info_text").text("Best-First Search");
+  if(hasCompleted)
+  {
+    let selText = $(this).text();
+    if (selText == "Bfs") {
+      BFS_btn = true;
+      DFS_btn = false;
+      A_star_btn = false;
+      Dijkstar_btn = false;
+      GreedyBFS_btn = false;
+      $("#info_text").text("Breadth First Search");
+    } else if (selText == "Dfs") {
+      BFS_btn = false;
+      DFS_btn = true;
+      A_star_btn = false;
+      Dijkstar_btn = false;
+      GreedyBFS_btn = false;
+      $("#info_text").text("Depth First Search");
+    } else if (selText == "A-star") {
+      BFS_btn = false;
+      DFS_btn = false;
+      A_star_btn = true;
+      Dijkstar_btn = false;
+      GreedyBFS_btn = false;
+      $("#info_text").text("A-star Algorithm");
+    } else if (selText == "Dijkstra's") {
+      BFS_btn = false;
+      DFS_btn = false;
+      A_star_btn = false;
+      Dijkstar_btn = true;
+      GreedyBFS_btn = false;
+      $("#info_text").text("Dijkstra's Algorithm");
+    } else if (selText == "Greedy-BFS") {
+      BFS_btn = false;
+      DFS_btn = false;
+      A_star_btn = false;
+      Dijkstar_btn = false;
+      GreedyBFS_btn = true;
+      $("#info_text").text("Best-First Search");
+    }
   }
 })
 
