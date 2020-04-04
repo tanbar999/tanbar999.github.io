@@ -1,8 +1,13 @@
+🍕🎉🤞😂😊🤣❤😍👌💕🎁
 body {
   text-align: center;
   background-color: #cff1ef;
   margin: 0;
   padding: 0;
+}
+
+.hidden {
+  display: none;
 }
 
 .header {
@@ -21,8 +26,13 @@ body {
 }
 
 .modal-title{
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Pacifico', cursive;
 }
+
+.modal-body-description{
+  font-family: 'Roboto Slab';
+}
+
 .navbar-brand {
   font-size: 1.5rem;
   font-family: 'Pacifico', cursive;
@@ -40,8 +50,26 @@ table {
   background-color: #fcf8f3;
 }
 
-table td:hover {
+table td:hover
+{
   background-color: rgb(33, 36, 61);
+}
+
+.btn-algo:hover
+{
+  color: white;
+  background-color: #ff1e56;
+}
+
+.btn-clear-path:hover
+{
+  color: white;
+  background-color: #ff1e56;
+}
+
+.btn-visualize:hover
+{
+  background-color: #481380;
 }
 
 .table-wrap {
@@ -70,6 +98,26 @@ table td:hover {
   left: 0;
   right: 0;
   bottom : 30%;
+  z-index: 5;
+}
+
+.myGif{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top : 80%;
+  z-index: 5;
+}
+
+.myGif1{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top : 60%;
   z-index: 5;
 }
 
@@ -225,7 +273,7 @@ table td:hover {
 
 @-webkit-keyframes color-change-2x {
   0% {
-    background: #1d1d1d;
+    background: #000000;
     -webkit-transform: scale(0.1);
             transform: scale(0.1);
   }
@@ -239,10 +287,9 @@ table td:hover {
 }
 @keyframes color-change-2x {
   0% {
-    background: #1d1d1d;
-    opacity: 0.8;
-    -webkit-transform: scale(0.3);
-            transform: scale(0.3);
+    background: #000000;
+    -webkit-transform: scale(0.1);
+            transform: scale(0.1);
   }
   100% {
     background: #ff0097;
@@ -250,6 +297,7 @@ table td:hover {
 
     -webkit-transform: scale(1);
             transform: scale(1);
+
   }
 }
 

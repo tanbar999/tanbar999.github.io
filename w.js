@@ -1,7 +1,65 @@
+///////////////////////////////////////////////////////////////////
+//MODAL LAYOUT AND PAGE CHANGE FUNCTION
+//////////////////////////////////////////////////////////////////
+let pageNum = 0;
 $(document).ready(function(){
   $("#myModal").modal('show');
-  console.log($("#myModal").modal());
+  changeModalPage(pageNum);
+  $("#myModal .prev").click(() => {
+    pageNum--;
+    changeModalPage(pageNum);
+  })
+
+  $("#myModal .next").click(() => {
+    pageNum++;
+    changeModalPage(pageNum);
+  })
 });
+
+function changeModalPage(pageNum)
+{
+  if(pageNum == 8)
+  {
+    $("#myModal .next").text("Close");
+  }
+  else
+  {
+  $("#myModal .next").text("Next");
+  }
+
+  if(pageNum == 0)
+  {
+    $("#myModal .prev").text("Close");
+  }
+  else
+  {
+    $("#myModal .prev").text("Prev");
+  }
+
+
+  if(pageNum > 8 || pageNum < 0)
+  {
+    $("#myModal").modal("hide");
+    return;
+  }
+
+  for(let i = 0 ; i < 9 ; i++)
+  {
+    if(i == pageNum)
+    {
+      $("#myModal #" + i).removeClass("hidden");
+    }
+    else
+    {
+      $("#myModal #" + i).addClass("hidden");
+    }
+
+  }
+}
+////////////////////////////////////////////////////////////////////
+//FOR COMPLETED PROCESS
+///////////////////////////////////////////////////////////////////
+let hasCompleted = true;
 ///////////////////////////////////////////////////////////////////
 //STARTING VARIABLE FOR START AND DESTINATION CO-ORDINATES
 //////////////////////////////////////////////////////////////////
@@ -70,47 +128,55 @@ for (let i = 0; i < row_size; i++) {
 //GETTING KEY PRESSES
 ///////////////////////////////////////////////////////////////////////
 $(document).on("keydown", function(e) {
-  switch (e.which) {
-    case 87:
-      move_flags(start_row - 1, start_col, start_row, start_col, true, false);
-      console.log("w pressed");
-      break;
-    case 68:
-      move_flags(start_row, start_col + 1, start_row, start_col, true, false);
-      console.log("d pressed");
-      break;
-    case 65:
-      move_flags(start_row, start_col - 1, start_row, start_col, true, false);
-      console.log("a pressed");
-      break;
-    case 83:
-      move_flags(start_row + 1, start_col, start_row, start_col, true, false);
-      console.log("s pressed");
-      break;
-    case 37:
-      move_flags(dest_row, dest_col - 1, dest_row, dest_col, false, true);
-      console.log("left pressed");
-      e.preventDefault();
-      break;
-    case 38:
-      move_flags(dest_row - 1, dest_col, dest_row, dest_col, false, true);
-      console.log("up pressed");
-      break;
-    case 39:
-      move_flags(dest_row, dest_col + 1, dest_row, dest_col, false, true);
-      console.log("right pressed");
-      break;
-    case 40:
-      move_flags(dest_row + 1, dest_col, dest_row, dest_col, false, true);
-      console.log("down pressed");
-      break;
-    default:
-      console.log(e.which);
+  if(hasCompleted)
+  {
+    switch (e.which) {
+      case 87:
+        move_flags(start_row - 1, start_col, start_row, start_col, true, false);
+        console.log("w pressed");
+        break;
+      case 68:
+        move_flags(start_row, start_col + 1, start_row, start_col, true, false);
+        console.log("d pressed");
+        break;
+      case 65:
+        move_flags(start_row, start_col - 1, start_row, start_col, true, false);
+        console.log("a pressed");
+        break;
+      case 83:
+        move_flags(start_row + 1, start_col, start_row, start_col, true, false);
+        console.log("s pressed");
+        break;
+      case 37:
+        move_flags(dest_row, dest_col - 1, dest_row, dest_col, false, true);
+        console.log("left pressed");
+        e.preventDefault();
+        break;
+      case 38:
+        move_flags(dest_row - 1, dest_col, dest_row, dest_col, false, true);
+        console.log("up pressed");
+        break;
+      case 39:
+        move_flags(dest_row, dest_col + 1, dest_row, dest_col, false, true);
+        console.log("right pressed");
+        break;
+      case 40:
+        move_flags(dest_row + 1, dest_col, dest_row, dest_col, false, true);
+        console.log("down pressed");
+        break;
+      default:
+        console.log(e.which);
+    }
+  }
+  else
+  {
+    console.log("TASK NOT COMPLETED");
   }
 
 })
 
-function move_flags(xpos, ypos, xprev, yprev, starter, destination) {
+function move_flags(xpos, ypos, xprev, yprev, starter, destination)
+{
   if (inside_grid(xpos, ypos)) {
     $("#" + xprev + "-" + yprev).removeClass("stat scale-in-center");
     $("#" + xprev + "-" + yprev).addClass("nstat");
@@ -121,7 +187,7 @@ function move_flags(xpos, ypos, xprev, yprev, starter, destination) {
       $("#" + xprev + "-" + yprev).removeClass("bg-success flip-in-hor-bottom");
       $('<img />').attr({
         'class': 'myImage_start unselectable',
-        'src': 'startPoint.png',
+        'src': 'Icons/startPoint.png',
         'alt': 'Start Logo',
         'title': 'Start Point',
         'width': '30',
@@ -134,7 +200,7 @@ function move_flags(xpos, ypos, xprev, yprev, starter, destination) {
       $("#" + xprev + "-" + yprev).removeClass("bg-info flip-in-hor-bottom");
       $('<img />').attr({
         'class': 'myImage_Destination unselectable',
-        'src': 'Destination.png',
+        'src': 'Icons/Destination.png',
         'alt': 'Destination Logo',
         'title': 'Destination Point',
         'width': '30'
@@ -159,7 +225,7 @@ function sh_color_grid(coord_x, coord_y) {
 var isDragging = false;
 $(".nstat").mousedown(function() {
     isDragging = true;
-    if (isDragging) {
+    if (isDragging && hasCompleted) {
       let coord = $(this)[0].id;
       let coord_x_y = coord.split("-");
 
@@ -177,7 +243,7 @@ $(".nstat").mousedown(function() {
     }
   })
   .mousemove(function() {
-    if (isDragging) {
+    if (isDragging && hasCompleted) {
       let coord = $(this)[0].id;
       let coord_x_y = coord.split("-");
       if (sh_color_grid(coord_x_y[0], coord_x_y[1])) {
@@ -193,9 +259,6 @@ $(".nstat").mousedown(function() {
       }
     }
   })
-  .mouseup(function() {
-    isDragging = false;
-  })
 
 $(document).mouseup(function() {
   isDragging = false;
@@ -203,7 +266,8 @@ $(document).mouseup(function() {
 /////////////////////////////////////////////////////////////////////////////
 //A-STAR AND Dijkstra TRAVERSAL
 ////////////////////////////////////////////////////////////////////////////
-function a_star(isdijkstra) {
+function a_star(isdijkstra)
+{
   let cell_table = new Array(row_size);
   for (let i = 0; i < row_size; i++) {
     cell_table[i] = new Array(col_size);
@@ -227,20 +291,21 @@ function a_star(isdijkstra) {
     let openList = new pq();
     openList.enqueue(start_row, start_col, cell_table[start_row][start_col].f_cost);
     let time = 0;
-    while (openList.item.length != 0) {
+    while (openList.item.length != 0)
+    {
       time++;
       let current = openList.dequeue();
       let X = current.x;
       let Y = current.y;
-      console.log(X + " " + Y + " :: " + cell_table[X][Y].f_cost);
       changeColor(X, Y, time, speed_multiplier , false);
       if (X == dest_row && Y == dest_col) {
         let path_values_x = new Array();
         let path_values_y = new Array();
+        path_values_x.push(dest_row);
+        path_values_y.push(dest_col);
         construct_Path(dest_row, dest_col, cell_table, path_values_x, path_values_y);
-        console.log(path_values_x);
-        console.log(path_values_y);
-        for (let i = path_values_x.length - 1; i >= 0; i--) {
+        for (let i = path_values_x.length - 1; i >= 0; i--)
+        {
           changeColor(path_values_x[i], path_values_y[i], time, speed_multiplier, true);
           time++;
         }
@@ -263,7 +328,11 @@ function a_star(isdijkstra) {
         }
       }
     }
-  } else {
+    hasCompleted = true;
+    console.log("NO PATH FOUND");
+  }
+  else
+  {
     cell_table[start_row][start_col].g_cost = 0;
     cell_table[start_row][start_col].h_cost = 0;
     cell_table[start_row][start_col].f_cost = cell_table[start_row][start_col].h_cost;
@@ -285,6 +354,8 @@ function a_star(isdijkstra) {
       if (X == dest_row && Y == dest_col) {
         let path_values_x = new Array();
         let path_values_y = new Array();
+        path_values_x.push(dest_row);
+        path_values_y.push(dest_col);
         construct_Path(dest_row, dest_col, cell_table, path_values_x, path_values_y);
         console.log(path_values_x);
         console.log(path_values_y);
@@ -312,12 +383,14 @@ function a_star(isdijkstra) {
       }
     }
   }
+  hasCompleted = true;
   console.log("NO PATH FOUND");
 }
 /////////////////////////////////////////////////////////////////////////////
 //CALCULATE SHORTEST PATH
 ////////////////////////////////////////////////////////////////////////////
-function construct_Path(x, y, cell_table, path_values_x, path_values_y) {
+function construct_Path(x, y, cell_table, path_values_x, path_values_y)
+{
   let v1 = Number.MAX_VALUE;
   let v2 = Number.MAX_VALUE;
   let v3 = Number.MAX_VALUE;
@@ -365,7 +438,8 @@ function construct_Path(x, y, cell_table, path_values_x, path_values_y) {
 /////////////////////////////////////////////////////////////////////////////
 //DFS TRAVERSAL
 ////////////////////////////////////////////////////////////////////////////
-function DFS() {
+function DFS()
+{
   let stack_x = new Array();
   let stack_y = new Array();
   let time = 0;
@@ -379,9 +453,12 @@ function DFS() {
   for (let i = 0; i < row_size; i++) {
     for (let j = 0; j < col_size; j++) {
       canWalk_copy[i][j] = canWalk[i][j];
-      if (i == start_row && j == start_col) {
+      if (i == start_row && j == start_col)
+      {
         distance_table[i][j] = 0;
-      } else {
+      }
+      else
+      {
         distance_table[i][j] = -1;
       }
 
@@ -390,35 +467,45 @@ function DFS() {
   stack_x.push(start_row);
   stack_y.push(start_col);
   canWalk_copy[start_row][start_col] = false;
-  while (stack_x.length != 0 && stack_y.length != 0) {
+  while (stack_x.length != 0 && stack_y.length != 0)
+  {
     time++;
     let value = findNextUnvisited(stack_x[stack_x.length - 1], stack_y[stack_y.length - 1], canWalk_copy, distance_table, time, speed_multiplier);
     if (value != "-1") {
       if (value.x == dest_row && value.y == dest_col) {
         let path_values_x = new Array();
         let path_values_y = new Array();
+        path_values_x.push(dest_row);
+        path_values_y.push(dest_col);
         calculate_shortest_Path(dest_row, dest_col, distance_table, path_values_x, path_values_y);
-        for (let i = path_values_x.length - 1; i >= 0; i--) {
+        for (let i = path_values_x.length - 1; i >= 0; i--)
+        {
           changeColor(path_values_x[i], path_values_y[i], time, speed_multiplier, true)
           time++;
         }
         return;
-      } else {
+      }
+      else
+      {
         stack_x.push(value.x);
         stack_y.push(value.y);
         canWalk_copy[value.x][value.y] = false;
       }
-    } else {
+    }
+    else
+    {
       stack_x.pop();
       stack_y.pop();
     }
   }
-  return;
+  hasCompleted = true;
+  console.log("NO PATH FOUND");
 }
 /////////////////////////////////////////////////////////////////////////////
 //BFS TRAVERSAL
 ////////////////////////////////////////////////////////////////////////////
-function BFS() {
+function BFS()
+{
   let queue_x = new Array();
   let queue_y = new Array();
   let time = 0;
@@ -445,7 +532,8 @@ function BFS() {
   queue_y.push(start_col);
   canWalk_copy[start_row][start_col] = false;
   let value2;
-  while (queue_x.length != 0 && queue_y.length != 0) {
+  while (queue_x.length != 0 && queue_y.length != 0)
+  {
     let value1_x = queue_x[0];
     let value1_y = queue_y[0];
     time++;
@@ -455,6 +543,8 @@ function BFS() {
       //////////////////////////////////////////////////////////////////
       let path_values_x = new Array();
       let path_values_y = new Array();
+      path_values_x.push(dest_row);
+      path_values_y.push(dest_col);
       calculate_shortest_Path(dest_row, dest_col, distance_table, path_values_x, path_values_y);
       for (let i = path_values_x.length - 1; i >= 0; i--) {
         changeColor(path_values_x[i], path_values_y[i], time, speed_multiplier, true)
@@ -472,11 +562,14 @@ function BFS() {
       canWalk_copy[value2.x][value2.y] = false;
     }
   }
+  hasCompleted = true;
+  console.log("NO PATH FOUND");
 }
 ////////////////////////////////////////////////////////////////////////////
 //GREEDY BFS
 ////////////////////////////////////////////////////////////////////////////
-function greedy_BFS() {
+function greedy_BFS()
+{
   let cell_table = new Array(row_size);
   for (let i = 0; i < row_size; i++) {
     cell_table[i] = new Array(col_size);
@@ -490,7 +583,6 @@ function greedy_BFS() {
   cell_table[start_row][start_col].g_cost = 0;
   cell_table[start_row][start_col].h_cost = 0;
   cell_table[start_row][start_col].f_cost = Math.abs(start_row - dest_row) + Math.abs(start_col - dest_col);
-  console.log(cell_table);
 
   let x_neighbour = [0, 1, 0, -1];
   let y_neighbour = [1, 0, -1, 0];
@@ -508,6 +600,8 @@ function greedy_BFS() {
     if (X == dest_row && Y == dest_col) {
       let path_values_x = new Array();
       let path_values_y = new Array();
+      path_values_x.push(dest_row);
+      path_values_y.push(dest_col);
       construct_Path(dest_row, dest_col, cell_table, path_values_x, path_values_y);
       console.log(path_values_x);
       console.log(path_values_y);
@@ -534,14 +628,15 @@ function greedy_BFS() {
       }
     }
   }
-
+  hasCompleted = true;
   console.log("NO PATH FOUND");
 }
 
 ////////////////////////////////////////////////////////////////////////////
 //converting TO WALL
 ///////////////////////////////////////////////////////////////////////////
-function convert_to_wall(x, y, time, time_multiplier) {
+function convert_to_wall(x, y, time, time_multiplier , finalMaze)
+{
   setTimeout(() => {
     var coord = ("#" + x + "-" + y);
     $(coord).removeClass("color-change-2x");
@@ -549,28 +644,37 @@ function convert_to_wall(x, y, time, time_multiplier) {
     $(coord).css("background-color", wallColor);
     $(coord).addClass("scale-up-center");
     canWalk[x][y] = false;
+    console.log(x + "," + y);
+    if(finalMaze)
+    {
+      if(x == row_size-1 && y == col_size-1)
+      {
+        hasCompleted = true;
+      }
+    }
   }, (time + 1) * time_multiplier);
 }
 
 ////////////////////////////////////////////////////////////////////////////
 //CREATING BOUNDARY WALL
 ///////////////////////////////////////////////////////////////////////////
-function create_boundary_walls(grid) {
+function create_boundary_walls(grid)
+{
   let time = 0;
   for (let i = 0; i < row_size; i++) {
-    convert_to_wall(i, 0, time, 5);
+    convert_to_wall(i, 0, time, 5 , false);
     grid[i][0] = "w";
     time++;
-    convert_to_wall(i, col_size - 1, time, 5);
+    convert_to_wall(i, col_size - 1, time, 5 , false);
     grid[i][col_size - 1] = "w";
     time++;
   }
 
   for (let i = 0; i < col_size; i++) {
-    convert_to_wall(0, i, time, 5);
+    convert_to_wall(0, i, time, 5 , false);
     grid[0][i] = "w";
     time++;
-    convert_to_wall(row_size - 1, i, time, 5);
+    convert_to_wall(row_size - 1, i, time, 5 , false);
     grid[row_size - 1][i] = "w";
     time++;
   }
@@ -595,7 +699,8 @@ function generate_maze(dimensions , numDoors)
   addInnerWalls(false, 1, col_size-1, 1, row_size-1);
 }
 
-function addInnerWalls(h, minX, maxX, minY, maxY) {
+function addInnerWalls(h, minX, maxX, minY, maxY)
+{
   if (h) {
     if (maxX - minX < 2)
     {
@@ -623,7 +728,8 @@ function addInnerWalls(h, minX, maxX, minY, maxY) {
   }
 }
 
-function addHWall(minX, maxX, y) {
+function addHWall(minX, maxX, y)
+{
   var hole = Math.floor(randomNumber(minX, maxX) / 2) * 2 + 1;
   for (var i = minX; i <= maxX; i++) {
     if (i == hole)
@@ -633,7 +739,8 @@ function addHWall(minX, maxX, y) {
   }
 }
 
-function addVWall(minY, maxY, x) {
+function addVWall(minY, maxY, x)
+{
   var hole = Math.floor(randomNumber(minY, maxY) / 2) * 2 + 1;
   for (var i = minY; i <= maxY; i++) {
     if (i == hole)
@@ -643,7 +750,8 @@ function addVWall(minY, maxY, x) {
   }
 }
 
-function randomNumber(min, max) {
+function randomNumber(min, max)
+{
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -658,7 +766,7 @@ function display()
     {
       if(grid[i][j] == "w")
       {
-        convert_to_wall(i , j , time , speed_multiplier);
+        convert_to_wall(i , j , time , speed_multiplier , true);
         time++;
       }
     }
@@ -680,7 +788,6 @@ function inside_grid(x, y) {
 function findNextUnvisited(x, y, canWalk, distance_table, time, count) {
   if (inside_grid(x, y + 1) && canWalk[x][y + 1]) {
     distance_table[x][y + 1] = distance_table[x][y] + 1;
-    // console.log("INDEX : " + (x) + "," + (y+1) + " SCORE" + distance_table[x][y+1]);
     changeColor((x), (y + 1), time, count, false);
     return {
       x: x,
@@ -688,7 +795,6 @@ function findNextUnvisited(x, y, canWalk, distance_table, time, count) {
     };
   } else if (inside_grid(x, y - 1) && canWalk[x][y - 1]) {
     distance_table[x][y - 1] = distance_table[x][y] + 1;
-    // console.log("INDEX : " + (x) + "," + (y-1) + " SCORE" + distance_table[x][y-1]);
     changeColor((x), (y - 1), time, count, false);
     return {
       x: x,
@@ -696,7 +802,6 @@ function findNextUnvisited(x, y, canWalk, distance_table, time, count) {
     };
   } else if (inside_grid(x + 1, y) && canWalk[x + 1][y]) {
     distance_table[x + 1][y] = distance_table[x][y] + 1;
-    // console.log("INDEX : " + (x+1) + "," + (y) + " SCORE" + distance_table[x+1][y]);
     changeColor((x + 1), y, time, count, false);
     return {
       x: x + 1,
@@ -704,7 +809,6 @@ function findNextUnvisited(x, y, canWalk, distance_table, time, count) {
     };
   } else if (inside_grid(x - 1, y) && canWalk[x - 1][y]) {
     distance_table[x - 1][y] = distance_table[x][y] + 1;
-    // console.log("INDEX : " + (x-1) + "," + (y) + " SCORE" + distance_table[x-1][y]);
     changeColor((x - 1), y, time, count, false);
     return {
       x: x - 1,
@@ -718,13 +822,23 @@ function findNextUnvisited(x, y, canWalk, distance_table, time, count) {
 /////////////////////////////////////////////////////////////////////
 //CHANGING COLOR OF THE GRID WITH A SET TIMEOUT
 ////////////////////////////////////////////////////////////////////
-function changeColor(x, y, time, count, shortestPath) {
+function changeColor(x, y, time, count, shortestPath , pathLength)
+{
   if (shortestPath) {
     setTimeout(() => {
       $("#" + x + "-" + y).removeClass("color-change-2x");
       $("#" + x + "-" + y).addClass("color-change-shortest");
+      console.log(x + "," + y);
+      if(x == dest_row && y == dest_col)
+      {
+        console.log("COMPLETED");
+        hasCompleted = true;
+      }
     }, (time + 1) * count);
-  } else {
+
+  }
+  else
+  {
     setTimeout(() => {
       $("#" + x + "-" + y).addClass("color-change-2x");
     }, (time + 1) * count);
@@ -772,8 +886,6 @@ function calculate_shortest_Path(x, y, distance_table, path_values_x, path_value
     y = path_values_y[path_values_y.length - 1];
   }
 }
-
-
 ////////////////////////////////////////////////////////////////////
 //CLEAR ALREADY CHECKED POINT
 ///////////////////////////////////////////////////////////////////
@@ -814,25 +926,37 @@ let A_star_btn = false;
 let Dijkstar_btn = false;
 let GreedyBFS_btn = false;
 $("#btn-visualize").click(() => {
-  clear_checked();
-  if (BFS_btn) {
-    BFS();
-    $("#info_text").removeClass("shake-bottom");
-  } else if (DFS_btn) {
-    DFS();
-    $("#info_text").removeClass("shake-bottom");
-  } else if (A_star_btn) {
-    a_star(false);
-    $("#info_text").removeClass("shake-bottom");
-  } else if (Dijkstar_btn) {
-    a_star(true);
-    $("#info_text").removeClass("shake-bottom");
-  } else if (GreedyBFS_btn) {
-    greedy_BFS();
-    $("#info_text").removeClass("shake-bottom");
-  } else {
-    console.log("SELECT ALGORITHM");
-    $("#info_text").addClass("shake-bottom");
+  if(hasCompleted)
+  {
+    clear_checked();
+    if (BFS_btn) {
+      hasCompleted = false;
+      BFS();
+      $("#info_text").removeClass("shake-bottom");
+    } else if (DFS_btn) {
+      hasCompleted = false;
+      DFS();
+      $("#info_text").removeClass("shake-bottom");
+    } else if (A_star_btn) {
+      hasCompleted = false;
+      a_star(false);
+      $("#info_text").removeClass("shake-bottom");
+    } else if (Dijkstar_btn) {
+      hasCompleted = false;
+      a_star(true);
+      $("#info_text").removeClass("shake-bottom");
+    } else if (GreedyBFS_btn) {
+      hasCompleted = false;
+      greedy_BFS();
+      $("#info_text").removeClass("shake-bottom");
+    } else {
+      console.log("SELECT ALGORITHM");
+      $("#info_text").addClass("shake-bottom");
+    }
+  }
+  else
+  {
+    console.log("TASK NOT COMPLETED");
   }
 })
 
@@ -877,45 +1001,55 @@ $("#dropdown_div button").click(function(e) {
 })
 
 $("#btn-gen_maze").click(() => {
-  display();
+   if(hasCompleted)
+   {
+     hasCompleted = false;
+     display();
+   }
 })
 
 $("#btn-clear-checked").click(() => {
-  clear_checked();
+  if(hasCompleted)
+    clear_checked();
 })
 
 $("#btn-clear-walls").click(() => {
-  clearWalls();
+  if(hasCompleted)
+    clearWalls();
 })
 
 $("#btn-clear-Board").click(() => {
-  clear_everything();
+  if(hasCompleted)
+    clear_everything();
 })
 
 ////////////////////////////////////////////////////////////////////
 //DROPDOWN SPEED MENU
 ///////////////////////////////////////////////////////////////////
 $("#dropdown_speed button").click(function(e) {
-  let selText = $(this).text();
-  if(selText == "Slow")
+  if(hasCompleted)
   {
-    speed_multiplier = 45;
-    $("#Speed_selector").text("Slow");
+    let selText = $(this).text();
+    if(selText == "Slow")
+    {
+      speed_multiplier = 45;
+      $("#Speed_selector").text("Slow");
 
-    console.log("SLOW SELECTED");
-  }
-  else if(selText == "Average")
-  {
-    speed_multiplier = 35;
-    $("#Speed_selector").text("Average");
+      console.log("SLOW SELECTED");
+    }
+    else if(selText == "Average")
+    {
+      speed_multiplier = 35;
+      $("#Speed_selector").text("Average");
 
-    console.log("AVERAGE SELECTED");
-  }
-  else if(selText == "Fast")
-  {
-    speed_multiplier = 20;
-    $("#Speed_selector").text("Fast");
+      console.log("AVERAGE SELECTED");
+    }
+    else if(selText == "Fast")
+    {
+      speed_multiplier = 20;
+      $("#Speed_selector").text("Fast");
 
-    console.log("FAST SELECTED");
+      console.log("FAST SELECTED");
+    }
   }
 })
