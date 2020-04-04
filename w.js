@@ -63,7 +63,7 @@ let hasCompleted = true;
 ///////////////////////////////////////////////////////////////////
 //STARTING VARIABLE FOR START AND DESTINATION CO-ORDINATES
 //////////////////////////////////////////////////////////////////
-const row_size = 18;
+const row_size = 19;
 const col_size = 49;
 
 let start_row = 9;
@@ -118,7 +118,7 @@ for (let i = 0; i < row_size; i++) {
       }).appendTo('#' + dest_row + "-" + dest_col);
 
     } else {
-      $("<td id=" + i + "-" + j + "></td>").addClass("col nstat border border-info py-3").appendTo("#row" + i);
+      $("<td id=" + i + "-" + j + "></td>").addClass("col nstat border border-info").appendTo("#row" + i);
 
     }
   }
