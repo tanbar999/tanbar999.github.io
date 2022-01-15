@@ -5,6 +5,8 @@ BFS, GREEDY-BFS, DIJKSTRA, A-STAR etc. This project how different algorithms sea
 all the ALGORITHMS ARE NOT SAME. Algorithms like DIJKSTRA as well as A-STAR is best to search for SHORTEST PATH but DFS will not always find the 
 SHORTEST PATH. BFS cant work alone to find the SHORTEST PATH as for the result it has to mantain a costtable to find required path.
 
+VISIT - https://tanbar999.github.io
+
 ## RECURSIVE DIVISION
 
 After watching Clement Project on youtube , I came to know that we can use these algorithms to even create a maze. There are many algorithms which can
