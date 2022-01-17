@@ -1,23 +1,30 @@
 ///////////////////////////////////////////////////////////////////
 //MODAL LAYOUT AND PAGE CHANGE FUNCTION
 //////////////////////////////////////////////////////////////////
-let pageNum = 0;
+var pageNum = 0;
 $(document).ready(function(){
   $("#myModal").modal('show');
   changeModalPage(pageNum);
+
+  //Changing Previous Button text using jQuery
   $("#myModal .prev").click(() => {
     pageNum--;
     changeModalPage(pageNum);
   })
 
+  //Changing Next Button text using jQuery
   $("#myModal .next").click(() => {
     pageNum++;
     changeModalPage(pageNum);
   })
 });
 
+///////////////////////////////////////////////////////////////////
+//CHANGE MODAL PAGES
+//////////////////////////////////////////////////////////////////
 function changeModalPage(pageNum)
 {
+  //Logic for NEXT button
   if(pageNum == 9)
   {
     $("#myModal .next").text("Close");
@@ -27,6 +34,7 @@ function changeModalPage(pageNum)
   $("#myModal .next").text("Next");
   }
 
+  //Logic for PREVIOUS button
   if(pageNum == 0)
   {
     $("#myModal .prev").text("Close");
@@ -56,25 +64,29 @@ function changeModalPage(pageNum)
 
   }
 }
+
 ////////////////////////////////////////////////////////////////////
 //FOR COMPLETED PROCESS
 ///////////////////////////////////////////////////////////////////
-let hasCompleted = true;
+var hasCompleted = true;
+
 ///////////////////////////////////////////////////////////////////
 //STARTING VARIABLE FOR START AND DESTINATION CO-ORDINATES
 //////////////////////////////////////////////////////////////////
-const row_size = 19;
-const col_size = 49;
+const row_size = 19;      //TOTAL ROWS
+const col_size = 49;      //TOTAL COLUMNS
 
-let start_row = 9;
-let start_col = 6;
+var start_row_SP = 9;        //Starting Row postion for Start point
+var start_col_SP = 22;       //Starting Column postion for Start point
 
-let dest_row = 9;
-let dest_col = 40;
+var dest_row_DP = 9;         //Starting Row postion for Destination point
+var dest_col_DP = 25;        //Starting Row postion for Destination point
+
 ////////////////////////////////////////////////////////////////////
 //SPEED MULTIPLIER
 ///////////////////////////////////////////////////////////////////
-let speed_multiplier = 20;
+var speed_multiplier = 20;
+
 ////////////////////////////////////////////////////////////////////
 //COLORS USED
 ///////////////////////////////////////////////////////////////////
@@ -84,7 +96,7 @@ const gridColor = "rgba(252, 248, 243, 0.5)";
 ///////////////////////////////////////////////////////////////////
 //2D ARRAY FOR LOOKING THE WALL AND WALKABLE AREA
 //////////////////////////////////////////////////////////////////
-let canWalk = new Array(row_size);
+var canWalk = new Array(row_size);
 
 for (let i = 0; i < row_size; i++) {
   canWalk[i] = new Array(col_size);
@@ -97,7 +109,7 @@ for (let i = 0; i < row_size; i++) {
   $("<tr id = row" + i + "></tr>").addClass("col stat border border-info").appendTo("#tableDiv");
   for (let j = 0; j < col_size; j++) {
     canWalk[i][j] = true;
-    if (i == start_row && j == start_col) {
+    if (i == start_row_SP && j == start_col_SP) {
       $("<td id=" + i + "-" + j + "></td>").addClass("col stat border border-info bg-success").appendTo("#row" + i);
       $('<img />').attr({
         'class': 'myImage_start unselectable',
@@ -105,9 +117,9 @@ for (let i = 0; i < row_size; i++) {
         'alt': 'Start Logo',
         'title': 'Start Point',
         'width': '30',
-      }).appendTo('#' + start_row + "-" + start_col);
+      }).appendTo('#' + start_row_SP + "-" + start_col_SP);
 
-    } else if (i == dest_row && j == dest_col) {
+    } else if (i == dest_row && j == _DP) {
       $("<td id=" + i + "-" + j + "></td>").addClass("col stat border border-info bg-info").appendTo("#row" + i);
       $('<img />').attr({
         'class': 'myImage_Destination unselectable',
@@ -115,7 +127,7 @@ for (let i = 0; i < row_size; i++) {
         'alt': 'Destination Logo',
         'title': 'Destination Point',
         'width': '30'
-      }).appendTo('#' + dest_row + "-" + dest_col);
+      }).appendTo('#' + dest_row + "-" + _DP);
 
     } else {
       $("<td id=" + i + "-" + j + "></td>").addClass("col nstat border border-info").appendTo("#row" + i);
@@ -132,36 +144,36 @@ $(document).on("keydown", function(e) {
   {
     switch (e.which) {
       case 87:
-        move_flags(start_row - 1, start_col, start_row, start_col, true, false);
+        move_flags(start_row_SP - 1, start_col_SP, start_row_SP, start_col_SP, true, false);
         console.log("w pressed");
         break;
       case 68:
-        move_flags(start_row, start_col + 1, start_row, start_col, true, false);
+        move_flags(start_row_SP, start_col_SP + 1, start_row_SP, start_col_SP, true, false);
         console.log("d pressed");
         break;
       case 65:
-        move_flags(start_row, start_col - 1, start_row, start_col, true, false);
+        move_flags(start_row_SP, start_col_SP - 1, start_row_SP, start_col_SP, true, false);
         console.log("a pressed");
         break;
       case 83:
-        move_flags(start_row + 1, start_col, start_row, start_col, true, false);
+        move_flags(start_row_SP + 1, start_col_SP, start_row_SP, start_col_SP, true, false);
         console.log("s pressed");
         break;
       case 37:
-        move_flags(dest_row, dest_col - 1, dest_row, dest_col, false, true);
+        move_flags(dest_row, _DP - 1, dest_row, _DP, false, true);
         console.log("left pressed");
         e.preventDefault();
         break;
       case 38:
-        move_flags(dest_row - 1, dest_col, dest_row, dest_col, false, true);
+        move_flags(dest_row - 1, _DP, dest_row, _DP, false, true);
         console.log("up pressed");
         break;
       case 39:
-        move_flags(dest_row, dest_col + 1, dest_row, dest_col, false, true);
+        move_flags(dest_row, _DP + 1, dest_row, _DP, false, true);
         console.log("right pressed");
         break;
       case 40:
-        move_flags(dest_row + 1, dest_col, dest_row, dest_col, false, true);
+        move_flags(dest_row + 1, _DP, dest_row, _DP, false, true);
         console.log("down pressed");
         break;
       default:
@@ -182,8 +194,8 @@ function move_flags(xpos, ypos, xprev, yprev, starter, destination)
     $("#" + xprev + "-" + yprev).addClass("nstat");
     if (starter) {
       $("img").remove(".myImage_start");
-      start_row = xpos;
-      start_col = ypos;
+      start_row_SP = xpos;
+      start_col_SP = ypos;
       $("#" + xprev + "-" + yprev).removeClass("bg-success flip-in-hor-bottom");
       $('<img />').attr({
         'class': 'myImage_start unselectable',
@@ -191,12 +203,12 @@ function move_flags(xpos, ypos, xprev, yprev, starter, destination)
         'alt': 'Start Logo',
         'title': 'Start Point',
         'width': '30',
-      }).appendTo('#' + start_row + "-" + start_col);
-      $("#" + start_row + "-" + start_col).addClass("bg-success flip-in-hor-bottom");
+      }).appendTo('#' + start_row_SP + "-" + start_col_SP);
+      $("#" + start_row_SP + "-" + start_col_SP).addClass("bg-success flip-in-hor-bottom");
     } else if (destination) {
       $("img").remove(".myImage_Destination");
       dest_row = xpos;
-      dest_col = ypos;
+      _DP = ypos;
       $("#" + xprev + "-" + yprev).removeClass("bg-info flip-in-hor-bottom");
       $('<img />').attr({
         'class': 'myImage_Destination unselectable',
@@ -204,8 +216,8 @@ function move_flags(xpos, ypos, xprev, yprev, starter, destination)
         'alt': 'Destination Logo',
         'title': 'Destination Point',
         'width': '30'
-      }).appendTo('#' + dest_row + "-" + dest_col);
-      $("#" + dest_row + "-" + dest_col).addClass("bg-info flip-in-hor-bottom");
+      }).appendTo('#' + dest_row + "-" + _DP);
+      $("#" + dest_row + "-" + _DP).addClass("bg-info flip-in-hor-bottom");
     }
   }
 }
@@ -263,6 +275,8 @@ $(".nstat").mousedown(function() {
 $(document).mouseup(function() {
   isDragging = false;
 })
+
+
 /////////////////////////////////////////////////////////////////////////////
 //A-STAR AND Dijkstra TRAVERSAL
 ////////////////////////////////////////////////////////////////////////////
@@ -280,16 +294,16 @@ function a_star(isdijkstra)
   }
 
   if (isdijkstra) {
-    cell_table[start_row][start_col].g_cost = 0;
-    cell_table[start_row][start_col].h_cost = 0;
-    cell_table[start_row][start_col].f_cost = cell_table[start_row][start_col].g_cost;
+    cell_table[start_row_SP][start_col_SP].g_cost = 0;
+    cell_table[start_row_SP][start_col_SP].h_cost = 0;
+    cell_table[start_row_SP][start_col_SP].f_cost = cell_table[start_row_SP][start_col_SP].g_cost;
     console.log(cell_table);
 
     let x_neighbour = [0, 1, 0, -1];
     let y_neighbour = [1, 0, -1, 0];
 
     let openList = new pq();
-    openList.enqueue(start_row, start_col, cell_table[start_row][start_col].f_cost);
+    openList.enqueue(start_row_SP, start_col_SP, cell_table[start_row_SP][start_col_SP].f_cost);
     let time = 0;
     while (openList.item.length != 0)
     {
@@ -298,12 +312,12 @@ function a_star(isdijkstra)
       let X = current.x;
       let Y = current.y;
       changeColor(X, Y, time, speed_multiplier , false);
-      if (X == dest_row && Y == dest_col) {
+      if (X == dest_row && Y == _DP) {
         let path_values_x = new Array();
         let path_values_y = new Array();
         path_values_x.push(dest_row);
-        path_values_y.push(dest_col);
-        construct_Path(dest_row, dest_col, cell_table, path_values_x, path_values_y);
+        path_values_y.push(_DP);
+        construct_Path(dest_row, _DP, cell_table, path_values_x, path_values_y);
         for (let i = path_values_x.length - 1; i >= 0; i--)
         {
           changeColor(path_values_x[i], path_values_y[i], time, speed_multiplier, true);
@@ -333,16 +347,16 @@ function a_star(isdijkstra)
   }
   else
   {
-    cell_table[start_row][start_col].g_cost = 0;
-    cell_table[start_row][start_col].h_cost = 0;
-    cell_table[start_row][start_col].f_cost = cell_table[start_row][start_col].h_cost;
+    cell_table[start_row_SP][start_col_SP].g_cost = 0;
+    cell_table[start_row_SP][start_col_SP].h_cost = 0;
+    cell_table[start_row_SP][start_col_SP].f_cost = cell_table[start_row_SP][start_col_SP].h_cost;
     console.log(cell_table);
 
     let x_neighbour = [0, 1, 0, -1];
     let y_neighbour = [1, 0, -1, 0];
 
     let openList = new pq();
-    openList.enqueue(start_row, start_col, cell_table[start_row][start_col].f_cost);
+    openList.enqueue(start_row_SP, start_col_SP, cell_table[start_row_SP][start_col_SP].f_cost);
     let time = 0;
     while (openList.item.length != 0) {
       time++;
@@ -351,12 +365,12 @@ function a_star(isdijkstra)
       let Y = current.y;
       console.log(X + " " + Y + " :: " + cell_table[X][Y].f_cost);
       changeColor(X, Y, time, 20);
-      if (X == dest_row && Y == dest_col) {
+      if (X == dest_row && Y == _DP) {
         let path_values_x = new Array();
         let path_values_y = new Array();
         path_values_x.push(dest_row);
-        path_values_y.push(dest_col);
-        construct_Path(dest_row, dest_col, cell_table, path_values_x, path_values_y);
+        path_values_y.push(_DP);
+        construct_Path(dest_row, _DP, cell_table, path_values_x, path_values_y);
         console.log(path_values_x);
         console.log(path_values_y);
         for (let i = path_values_x.length - 1; i >= 0; i--) {
@@ -373,7 +387,7 @@ function a_star(isdijkstra)
         if (inside_grid(a, b) && !cell_table[a][b].isWall) {
           if (cell_table[a][b].f_cost == -1) {
             cell_table[a][b].g_cost = cell_table[X][Y].g_cost + 1;
-            cell_table[a][b].h_cost = Math.abs(a - dest_row) + Math.abs(b - dest_col);
+            cell_table[a][b].h_cost = Math.abs(a - dest_row) + Math.abs(b - _DP);
             cell_table[a][b].f_cost = cell_table[a][b].g_cost + cell_table[a][b].h_cost;
             cell_table[a][b].parent_x = X;
             cell_table[a][b].parent_y = Y;
@@ -386,6 +400,7 @@ function a_star(isdijkstra)
   hasCompleted = true;
   console.log("NO PATH FOUND");
 }
+
 /////////////////////////////////////////////////////////////////////////////
 //CALCULATE SHORTEST PATH
 ////////////////////////////////////////////////////////////////////////////
@@ -427,7 +442,7 @@ function construct_Path(x, y, cell_table, path_values_x, path_values_y)
     path_values_y.push((y + 1));
   }
 
-  while (x != start_row || y != start_col) {
+  while (x != start_row_SP || y != start_col_SP) {
     path_values_x.push(cell_table[x][y].parent_x);
     path_values_y.push(cell_table[x][y].parent_y);
     x = path_values_x[path_values_x.length - 1];
@@ -435,6 +450,7 @@ function construct_Path(x, y, cell_table, path_values_x, path_values_y)
   }
 
 }
+
 /////////////////////////////////////////////////////////////////////////////
 //DFS TRAVERSAL
 ////////////////////////////////////////////////////////////////////////////
@@ -453,7 +469,7 @@ function DFS()
   for (let i = 0; i < row_size; i++) {
     for (let j = 0; j < col_size; j++) {
       canWalk_copy[i][j] = canWalk[i][j];
-      if (i == start_row && j == start_col)
+      if (i == start_row_SP && j == start_col_SP)
       {
         distance_table[i][j] = 0;
       }
@@ -464,20 +480,20 @@ function DFS()
 
     }
   }
-  stack_x.push(start_row);
-  stack_y.push(start_col);
-  canWalk_copy[start_row][start_col] = false;
+  stack_x.push(start_row_SP);
+  stack_y.push(start_col_SP);
+  canWalk_copy[start_row_SP][start_col_SP] = false;
   while (stack_x.length != 0 && stack_y.length != 0)
   {
     time++;
     let value = findNextUnvisited(stack_x[stack_x.length - 1], stack_y[stack_y.length - 1], canWalk_copy, distance_table, time, speed_multiplier);
     if (value != "-1") {
-      if (value.x == dest_row && value.y == dest_col) {
+      if (value.x == dest_row && value.y == _DP) {
         let path_values_x = new Array();
         let path_values_y = new Array();
         path_values_x.push(dest_row);
-        path_values_y.push(dest_col);
-        calculate_shortest_Path(dest_row, dest_col, distance_table, path_values_x, path_values_y);
+        path_values_y.push(_DP);
+        calculate_shortest_Path(dest_row, _DP, distance_table, path_values_x, path_values_y);
         for (let i = path_values_x.length - 1; i >= 0; i--)
         {
           changeColor(path_values_x[i], path_values_y[i], time, speed_multiplier, true)
@@ -501,6 +517,7 @@ function DFS()
   hasCompleted = true;
   console.log("NO PATH FOUND");
 }
+
 /////////////////////////////////////////////////////////////////////////////
 //BFS TRAVERSAL
 ////////////////////////////////////////////////////////////////////////////
@@ -519,7 +536,7 @@ function BFS()
   for (let i = 0; i < row_size; i++) {
     for (let j = 0; j < col_size; j++) {
       canWalk_copy[i][j] = canWalk[i][j];
-      if (i == start_row && j == start_col) {
+      if (i == start_row_SP && j == start_col_SP) {
         distance_table[i][j] = 0;
       } else {
         distance_table[i][j] = -1;
@@ -528,24 +545,24 @@ function BFS()
     }
   }
 
-  queue_x.push(start_row);
-  queue_y.push(start_col);
-  canWalk_copy[start_row][start_col] = false;
+  queue_x.push(start_row_SP);
+  queue_y.push(start_col_SP);
+  canWalk_copy[start_row_SP][start_col_SP] = false;
   let value2;
   while (queue_x.length != 0 && queue_y.length != 0)
   {
     let value1_x = queue_x[0];
     let value1_y = queue_y[0];
     time++;
-    if (value1_x == dest_row && value1_y == dest_col) {
+    if (value1_x == dest_row && value1_y == _DP) {
       ///////////////////////////////////////////////////////////////////
       //STORING PATH FOR FINDING SHORTEST path
       //////////////////////////////////////////////////////////////////
       let path_values_x = new Array();
       let path_values_y = new Array();
       path_values_x.push(dest_row);
-      path_values_y.push(dest_col);
-      calculate_shortest_Path(dest_row, dest_col, distance_table, path_values_x, path_values_y);
+      path_values_y.push(_DP);
+      calculate_shortest_Path(dest_row, _DP, distance_table, path_values_x, path_values_y);
       for (let i = path_values_x.length - 1; i >= 0; i--) {
         changeColor(path_values_x[i], path_values_y[i], time, speed_multiplier, true)
         time++;
@@ -565,6 +582,7 @@ function BFS()
   hasCompleted = true;
   console.log("NO PATH FOUND");
 }
+
 ////////////////////////////////////////////////////////////////////////////
 //GREEDY BFS
 ////////////////////////////////////////////////////////////////////////////
@@ -580,15 +598,15 @@ function greedy_BFS()
       cell_table[i][j] = new cell_cost(-1, -1, -1, i, j, !canWalk[i][j]);
     }
   }
-  cell_table[start_row][start_col].g_cost = 0;
-  cell_table[start_row][start_col].h_cost = 0;
-  cell_table[start_row][start_col].f_cost = Math.abs(start_row - dest_row) + Math.abs(start_col - dest_col);
+  cell_table[start_row_SP][start_col_SP].g_cost = 0;
+  cell_table[start_row_SP][start_col_SP].h_cost = 0;
+  cell_table[start_row_SP][start_col_SP].f_cost = Math.abs(start_row_SP - dest_row) + Math.abs(start_col_SP - _DP);
 
   let x_neighbour = [0, 1, 0, -1];
   let y_neighbour = [1, 0, -1, 0];
 
   let listPath = new pq();
-  listPath.enqueue(start_row, start_col, cell_table[start_row][start_col].f_cost);
+  listPath.enqueue(start_row_SP, start_col_SP, cell_table[start_row_SP][start_col_SP].f_cost);
   let time = 0;
   while (listPath.item.length != 0) {
     time++;
@@ -597,12 +615,12 @@ function greedy_BFS()
     let Y = current.y;
     console.log(X + " " + Y + " :: " + cell_table[X][Y].f_cost);
     changeColor(X, Y, time, speed_multiplier , false);
-    if (X == dest_row && Y == dest_col) {
+    if (X == dest_row && Y == _DP) {
       let path_values_x = new Array();
       let path_values_y = new Array();
       path_values_x.push(dest_row);
-      path_values_y.push(dest_col);
-      construct_Path(dest_row, dest_col, cell_table, path_values_x, path_values_y);
+      path_values_y.push(_DP);
+      construct_Path(dest_row, _DP, cell_table, path_values_x, path_values_y);
       console.log(path_values_x);
       console.log(path_values_y);
       for (let i = path_values_x.length - 1; i >= 0; i--) {
@@ -620,7 +638,7 @@ function greedy_BFS()
         if (cell_table[a][b].f_cost == -1) {
           cell_table[a][b].g_cost = 0;
           cell_table[a][b].h_cost = 0;
-          cell_table[a][b].f_cost = Math.abs(a - dest_row) + Math.abs(b - dest_col);
+          cell_table[a][b].f_cost = Math.abs(a - dest_row) + Math.abs(b - _DP);
           cell_table[a][b].parent_x = X;
           cell_table[a][b].parent_y = Y;
           listPath.enqueue(a, b, cell_table[a][b].f_cost);
@@ -679,6 +697,7 @@ function create_boundary_walls(grid)
     time++;
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////
 //CREATING THE MAZE USING RECURSIVE DIVISION
 ///////////////////////////////////////////////////////////////////////////
@@ -695,7 +714,7 @@ function generate_maze(dimensions , numDoors)
   }
 
   create_boundary_walls(grid);
-  grid[start_row][start_col] = "g";
+  grid[start_row_SP][start_col_SP] = "g";
   addInnerWalls(false, 1, col_size-1, 1, row_size-1);
 }
 
@@ -734,7 +753,7 @@ function addHWall(minX, maxX, y)
   for (var i = minX; i <= maxX; i++) {
     if (i == hole)
       grid[y][i] = "";
-    else if((y != start_row || i != start_col) && (y != dest_row || i != dest_col))
+    else if((y != start_row_SP || i != start_col_SP) && (y != dest_row || i != _DP))
       grid[y][i] = "w";
   }
 }
@@ -745,7 +764,7 @@ function addVWall(minY, maxY, x)
   for (var i = minY; i <= maxY; i++) {
     if (i == hole)
       grid[i][x] = "";
-    else if((i != start_row || x != start_col) && (i != dest_row || x != dest_col))
+    else if((i != start_row_SP || x != start_col_SP) && (i != dest_row || x != _DP))
       grid[i][x] = "w";
   }
 }
@@ -772,6 +791,7 @@ function display()
     }
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////
 //CHECK IF VALUES PROVIDED ARE INSIDE THE grid
 ///////////////////////////////////////////////////////////////////////////
@@ -829,7 +849,7 @@ function changeColor(x, y, time, count, shortestPath , pathLength)
       $("#" + x + "-" + y).removeClass("color-change-2x");
       $("#" + x + "-" + y).addClass("color-change-shortest");
       console.log(x + "," + y);
-      if(x == dest_row && y == dest_col)
+      if(x == dest_row && y == _DP)
       {
         console.log("COMPLETED");
         hasCompleted = true;
@@ -853,7 +873,7 @@ function calculate_shortest_Path(x, y, distance_table, path_values_x, path_value
   let v3 = Number.MAX_VALUE;
   let v4 = Number.MAX_VALUE;
 
-  while (x != start_row || y != start_col) {
+  while (x != start_row_SP || y != start_col_SP) {
     if (inside_grid(x, y - 1) && distance_table[x][y - 1] != -1) {
       v1 = distance_table[x][y - 1];
     }
@@ -886,6 +906,7 @@ function calculate_shortest_Path(x, y, distance_table, path_values_x, path_value
     y = path_values_y[path_values_y.length - 1];
   }
 }
+
 ////////////////////////////////////////////////////////////////////
 //CLEAR ALREADY CHECKED POINT
 ///////////////////////////////////////////////////////////////////
